@@ -2,8 +2,9 @@
 [![Contributors][contributors-shield]][contributors-url]
 
 <p align="center">
-  <img src="https://holbertonintranet.s3.amazonaws.com/uploads/medias/2018/6/65f4a1dd9c51265f49d0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARDDGGGOUWMNL5ANN%2F20200630%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200630T223717Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=41b31543d4dd5050f6bca2fcb521553d195bada7e2a2a64dd9ae199cdb73d341">
+  <img src="https://press.airbnb.com/wp-content/uploads/sites/4/2017/07/airbnb-newsroom-twitter-card-default.png?fit=2000%2C1050">
   <h2 align="center">AirBnB_clone</h2>
+  <h3 align="center">Command Interpreter</h3>
 </p>
 
 ### This project is a command interpreter to manage our AirBnB clone objects.
