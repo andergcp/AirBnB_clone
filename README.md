@@ -2,7 +2,7 @@
 [![Contributors][contributors-shield]][contributors-url]
 
 <p align="center">
-  <img src="https://press.airbnb.com/wp-content/uploads/sites/4/2017/07/airbnb-newsroom-twitter-card-default.png?fit=2000%2C1050" width="60" height="32">
+  <img src="https://press.airbnb.com/wp-content/uploads/sites/4/2017/07/airbnb-newsroom-twitter-card-default.png?fit=2000%2C1050" width="300" height="160">
   <h2 align="center">AirBnB_clone</h2>
   <h3 align="center">Command Interpreter</h3>
 </p>
