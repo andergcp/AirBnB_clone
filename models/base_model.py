@@ -25,9 +25,8 @@ class BaseModel:
                     new_value = datetime.strptime(
                         value, '%Y-%m-%dT%H:%M:%S.%f')
                     setattr(self, key, new_value)
-                elif key is not '__class__':
+                elif key != '__class__':
                     setattr(self, key, value)
-        print("Creó un nuevo objeto")
         models.storage.new(self)
 
     def __str__(self):
@@ -48,7 +47,7 @@ class BaseModel:
         """ Returns a dictionary containing all keys/values
             of __dict__ of the instance
         """
-        dictionary = self.__dict__
+        dictionary = self.__dict__.copy()
         dictionary['__class__'] = self.__class__.__name__
 #       dictionary.update({'__class__': self.__class__.__name__})
         dictionary['created_at'] = self.created_at.isoformat()
