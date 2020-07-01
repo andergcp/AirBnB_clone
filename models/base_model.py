@@ -4,7 +4,7 @@
 import models
 import uuid
 from models import storage
-from datetime import datetime, timedelta
+from datetime import datetime
 from importlib import reload
 
 
@@ -24,7 +24,8 @@ class BaseModel:
             # Instantiation from a dict
             for key, value in kwargs.items():
                 if key == 'updated_at' or key == 'created_at':
-                    new_value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
+                    new_value = datetime.strptime(
+                        value, '%Y-%m-%dT%H:%M:%S.%f')
                     setattr(self, key, new_value)
                 elif key is not '__class__':
                     setattr(self, key, value)
@@ -33,14 +34,15 @@ class BaseModel:
         '''Setting str representation'''
         # Expected return:
         # [<class name>] (<self.id>) <self.__dict__>
-        return '[{}] ({}) <{}>'.format(self.__class__.__name__, self.id, self.__dict__)
+        return '[{}] ({}) {}'.format(
+            self.__class__.__name__, self.id, self.__dict__)
 
     def save(self):
         """ Updates the public instance attribute
             updated_at with the current datetime
         """
         self.updated_at = datetime.now()
-        storage.save()
+#        storage.save()
 
     def to_dict(self):
         """ Returns a dictionary containing all keys/values
