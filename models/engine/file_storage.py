@@ -4,6 +4,7 @@ BaseModel from another one by using a dictionary
 """
 import os
 import json
+from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -30,11 +31,16 @@ class FileStorage:
 
     def reload(self):
         """ check if file.json exist & deserializes JSON file to __objects """
-        try:
-            with open(self.__file_path, 'r') as read_file:
-                object_dict = json.load(read_file)
-            for key, value in object_dict.items():
-                repr_obj = eval(value['__class__'])(**value)
-                self.__objects[key] = repr_obj
-        except Exception:
-            pass
+#        try:
+        with open(FileStorage.__file_path, 'r', encoding='utf-8') as read_file:
+            print("abrio el archivo:")
+            object_dict = json.load(read_file)
+            print("Este es el archivo: {}".format(object_dict))
+        for key, value in object_dict.items():
+            print("Otra vez Este es el archivo: {}".format(object_dict))
+            print("Entro al for")
+            print("Este es el value: {}.{}".format(value['__class__'], value))
+            FileStorage.__objects[key] = eval(value['__class__'])(**value)
+            print("Ya evaluo")
+#        except Exception:
+#            pass
