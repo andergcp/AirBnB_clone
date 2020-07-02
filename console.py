@@ -5,10 +5,12 @@ import cmd
 from models.base_model import BaseModel
 from models import storage
 
+
 class HBNBCommand(cmd.Cmd):
 
     prompt = "(hbnb) "
-    classes = ['BaseModel', 'User', 'State', 'City', 'Amenity', 'Place', 'Review']
+    classes = ['BaseModel', 'User', 'State', 'City',
+               'Amenity', 'Place', 'Review']
 
     """ do_ commands methods """
     def do_quit(self, arg):
@@ -116,7 +118,7 @@ class HBNBCommand(cmd.Cmd):
         if not objs_list:
             return
         print(objs_list)
-            
+
         # try:
         #     eval(cls_name)
         # except:
@@ -127,15 +129,35 @@ class HBNBCommand(cmd.Cmd):
         Updates an instance based on the class name and id by adding
         or updating attribute (save the change into the JSON file)
         """
-        if not cls_name:
+        if not args:
             print("** class name missing **")
-        else:
-            try:
-                eval(cls_name)
-            except:
-                print("** class doesn't exist **")
+            return
+        splited_args = args.split()
+        if splited_args[0] not in self.classes:
+            print("** class doesn't exist **")
+            return
+        if len(splited_args) < 2:
+            print('** instance id missing **')
+            return
+        try:
+            key_obj = splited_args[0] + '.' + splited_args[1]
+            obj = storage.all()[key_obj]
+        except Exception:
+            print('** no instance found **')
+            return
+        if len(splited_args) < 3:
+            print('** attribute name missing **')
+            return
+        if len(splited_args) < 4:
+            print('** value missing **')
+            return
+        setattr(obj, str(splited_args[2]), str(splited_args[3][1:-1]))
+        storage.save()
+        # try:
+        #     eval(cls_name)
+        # except:
+        #     print("** class doesn't exist **")
 
-    """ help commands methods """
     def help_quit(self):
         print("Quit command to exit the program\n")
 
@@ -159,8 +181,9 @@ class HBNBCommand(cmd.Cmd):
 
     """ cmd modules """
     def emptyline(self):
+        '''Empty line'''
         pass
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     HBNBCommand().cmdloop()
