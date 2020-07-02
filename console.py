@@ -3,11 +3,12 @@
 """
 import cmd
 from models.base_model import BaseModel
-
+from models import storage
 
 class HBNBCommand(cmd.Cmd):
 
     prompt = "(hbnb) "
+    classes = ['BaseModel', 'User', 'State', 'City', 'Amenity', 'Place', 'Review']
 
     """ do_ commands methods """
     def do_quit(self, arg):
@@ -22,60 +23,94 @@ class HBNBCommand(cmd.Cmd):
         """
         if not arg:
             print("** class name missing **")
-        try:
-            new_instance = eval(arg + "()")
+        elif arg not in self.classes:
+            print("** class doesn't exist **")
+        else:
+            new_instance = eval(arg)()
             new_instance.save()
             print(new_instance.id)
-        except:
-            print("** class doesn't exist **")
+        # try:
+        #     new_instance = eval(arg + "()")
+        #     new_instance.save()
+        #     print(new_instance.id)
+        # except:
+        #     print("** class doesn't exist **")
 
-    def do_show(self, name, id_number):
+    def do_show(self, args):
         """Prints the str repr of an instance based on the cls bane and id """
-        if not name:
+        if not args:
             print("** class name missing **")
-        else:
-            try:
-                eval(name)
-            except:
-                print("** class doesn't exist **")
-        if not id_number:
+            return
+        args_list = args.split()
+        if args_list[0] not in self.classes:
+            print("** class doesn't exist **")
+            return
+            # try:
+            #     eval(name)
+            # except:
+            #     print("** class doesn't exist **")
+        if len(args_list) < 2:
             print("** instance id missing **")
-        else:
-            try:
-                eval(id_number)
-            except:
-                print("** no instance found **")
+            return
+        try:
+            objs = storage.all()
+            obj_key = args_list[0] + '.' + args_list[1]
+            print(objs[obj_key])
+        except Exception:
+            print('** no instance found **')
+        # else:
+        #     try:
+        #         eval(id_number)
+        #     except:
+        #         print("** no instance found **")
 
-    def do_destroy(self, cls_name, id_number):
+    def do_destroy(self, args):
         """
         Deletes an instance based on the class name and id
         """
-        if not cls_name:
+        if not args:
             print("** class name missing **")
-        else:
-            try:
-                eval(cls_name)
-            except:
-                print("** class doesn't exist **")
-        if not id_number:
+            return
+        args_list = args.split()
+        if args_list[0] not in self.classes:
+            print("** class doesn't exist **")
+            return
+        if len(args_list) < 2:
             print("** instance id missing **")
-        else:
-            try:
-                eval(id_number)
-            except:
-                print("** no instance found **")
+            return
+        try:
+            obj_key = args_list[0] + '.' + args_list[1]
+            del storage.all()[obj_key]
+            storage.save()
+        except Exception:
+            print('** no instance found **')
+
+        # else:
+        #     try:
+        #         eval(cls_name)
+        #     except:
+        #         print("** class doesn't exist **")
+        # if not id_number:
+        #     print("** instance id missing **")
+        # else:
+        #     try:
+        #         eval(id_number)
+        #     except:
+        #         print("** no instance found **")
 
     def do_all(self, cls_name):
         """ Prints all string representation of all instances
         based or not on the class name
         """
-        print()
+        if not cls_name:
+            objs_list = storage.all()
+            
         try:
             eval(cls_name)
         except:
             print("** class doesn't exist **")
 
-    def do_update(self, cls_name, id_number, attr):
+    def do_update(self, args):
         """
         Updates an instance based on the class name and id by adding
         or updating attribute (save the change into the JSON file)
